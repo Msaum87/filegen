@@ -1,14 +1,16 @@
 # Randomized File Generator
-CURRENT- PERL
+CURRENT- PERL, PYTHON
 
-TODO- PYTHON
+
 
 This is my default "how to learn a new language" tool.
 
-Prompts for users input on: min and max size range, scale of size (KB, MB, GB, TB).
-Logs generation.
+Prompts for users input on: min and max size range, scale of size (KB, MB, GB, TB). 
+Python version also prompts for a working directory to use.
 
-Currently has two commands inside: "dd" and "fallocate". "dd" is limited to the 2,147,483,647 cap of a 32-bit system and is commented out by default.
+Logs generated.
+
+Uses the "fallocate" command to build test files. Perl file has a "dd" command commented out as an option.
 
 Use at your own risk
 
