@@ -62,15 +62,18 @@ if (copies==""):
 #if
 
 
-newd=raw_input("\nWhat chance (1-100)% do you want to stay in the current directory?\n0 will create a new subdirectory every time.\n100 will never create a new subdirectory [85]: ")
+newd=raw_input("\nWhat chance (1-100)% do you want to create a new directory?\n0 will never do this.\n100 will create a new directory for each file [25]: ")
 if ( newd==""):
- newd=85
+ newd=25
 #if
 
-topd=raw_input("\nWhat chance do you want to build deeper directory trees?\n0 will return to the top-level every time.\n100 will never, creating a linear subdirectory tree.\nWARNING: If this is lower than the chance to create a new directory,\nyou may end up with a shallow, wide directory structure [95]: ")
+topd=raw_input("\nWhat chance do you want to return to a higher directory?\n0 will never, creating a linear subdirectory tree.\n100 will return to the top-level every time.\nNOTE: This value is subtracted from the previous value to determine the chance to\nchange up a single directory [7]: ")
 if ( topd==""):
- topd=95
+ topd=7
 #if
+elsd=100-(int(newd)-int(topd))
+topd=100-int(topd)
+newd=100-int(newd)
 os.system('echo \"'+time.ctime()+'::Destination::'+d+'\" >>'+do+'/FileGen.log')
 os.system('echo \"'+time.ctime()+'::Variables Input\" >>'+do+'/FileGen.log')
 os.system('echo \"'+time.ctime()+'::Size Scale::'+kmgt+'B\" >>'+do+'/FileGen.log')
@@ -92,17 +95,17 @@ while ( i < int(copies)):
  x=random.randint(1, 100)
  #This is the small loop that creates a new directory.
  if (x > int(newd)):
+  #directory counter, prevents duplciate naming
   l=l+1
-  #c is our new directory name, with a counter number and randomly selected name
-  c=d+"/"+str(l)+"_"+dirs[random.randint(0, len(dirs)-1)]
+
+  #d is our new directory name, with a counter number and randomly selected name
+  d=d+"/"+str(l)+"_"+dirs[random.randint(0, len(dirs)-1)]
   
   #This logs a new directory creation
-  os.system('echo \"'+time.ctime()+'::Directory Created::'+c+'\" >> '+do+'/FileGen.log')
+  os.system('echo \"'+time.ctime()+'::Directory Created::'+d+'\" >> '+do+'/FileGen.log')
   
   #creates our new directory
-  os.system('mkdir '+c+' 2>>'+do+'/FileGen.log')
-  #changes our current working directory variable to the newly created one.
-  d=c
+  os.system('mkdir '+d+' 2>>'+do+'/FileGen.log')
  #if
  #This is my command that creates the test files.
  #syntax for fallocate is: "fallocate -l 10M test1.dat"
@@ -118,9 +121,16 @@ while ( i < int(copies)):
  if (x > int(topd)):
   #This logs the return to top-level
   os.system('echo \"'+time.ctime()+'::Top-Level Return::'+do+'.\" >> '+do+'/FileGen.log')
-  
   #resets us to our original top-level for file creation.
   d=do
+ elif ( (x >  int(elsd)) & (d != do)):
+  y=str.split(d, '/')
+  print y
+  del y[len(y)-1]
+  print y
+  d='/'.join(y)
+  os.system('echo \"'+time.ctime()+'::One-Level-Up Return::'+d+'.\" >> '+do+'/FileGen.log')
+  
  #if
 #while
 os.system('clear 2>>'+do+'/FileGen.log')
