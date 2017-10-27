@@ -71,20 +71,34 @@ topd=raw_input("\nWhat chance do you want to build deeper directory trees?\n0 wi
 if ( topd==""):
  topd=95
 #if
+os.system('echo \"'+time.ctime()+'::Destination::'+d+'\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Variables Input\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Size Scale::'+kmgt+'B\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Min Size::'+str(smallie)+kmgt+'B\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Max Size::'+str(biggie)+kmgt+'B\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Total Copies::'+str(copies)+'\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Directory Chance::'+str(newd)+'%\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Top-Level Chance::'+str(topd)+'%\" >>'+do+'/FileGen.log')
+
+
 #------------------------------------
 #This is the generation of files
 #------------------------------------
-while ( i < copies):
+while ( i < int(copies)):
  #couter up
  i=i+1
  #size randomizer between two inputs
  sizie=random.randint(int(smallie), int(biggie))
  x=random.randint(1, 100)
  #This is the small loop that creates a new directory.
- if (x > newd):
+ if (x > int(newd)):
   l=l+1
   #c is our new directory name, with a counter number and randomly selected name
   c=d+"/"+str(l)+"_"+dirs[random.randint(0, len(dirs)-1)]
+  
+  #This logs a new directory creation
+  os.system('echo \"'+time.ctime()+'::Directory Created::'+c+'\" >> '+do+'/FileGen.log')
+  
   #creates our new directory
   os.system('mkdir '+c+' 2>>'+do+'/FileGen.log')
   #changes our current working directory variable to the newly created one.
@@ -94,12 +108,22 @@ while ( i < copies):
  #syntax for fallocate is: "fallocate -l 10M test1.dat"
  #these are all pulled from variabels and randomization and counters.
  os.system('fallocate -l '+str(sizie)+kmgt+' '+d+'/test'+str(i)+'.dat 2>>'+do+'/FileGen.log')
+ 
+ #This line will load a log entry for each file created.
+ os.system('echo \"'+time.ctime()+'::File Created::'+str(sizie)+kmgt+'B::'+d+'/test'+str(i)+'.dat\" >> '+do+'/FileGen.log')
+ #This line here, if uncommented, will give a scrolling feedback of each file creation.
+ #os.system('echo \"'+time.ctime()+'::File Created::'+str(sizie)+kmgt+'B::'+d+'/test'+str(i)+'.dat\"')
+ 
  #This is our chance to return to toplevel creation, so that it is not a linear subdirectory tree
- if (x > topd):
+ if (x > int(topd)):
+  #This logs the return to top-level
+  os.system('echo \"'+time.ctime()+'::Top-Level Return::'+do+'.\" >> '+do+'/FileGen.log')
+  
+  #resets us to our original top-level for file creation.
   d=do
  #if
 #while
 os.system('clear 2>>'+do+'/FileGen.log')
 print "\nFinished. Created "+str(l)+" subdirectories containing "+str(copies)+" files between "+str(smallie)+kmgt+"B and "+str(biggie)+kmgt+"B."
 os.system('echo \"'+time.ctime()+'::FileGen(Python) finished.\" >>'+do+'/FileGen.log')
-os.system('echo \"'+time.ctime()+':: Created '+str(l)+' subdirectories containing '+str(copies)+' files between '+str(smallie)+kmgt+'B and '+str(biggie)+kmgt+'B\" >>'+do+'/FileGen.log')
+os.system('echo \"'+time.ctime()+'::Created '+str(l)+' subdirectories containing '+str(copies)+' files between '+str(smallie)+kmgt+'B and '+str(biggie)+kmgt+'B in '+do+'.\" >>'+do+'/FileGen.log')
