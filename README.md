@@ -1,4 +1,4 @@
-# Randomized File Generator
+# Randomized File Generator (python & perl)
 CURRENT- PERL, PYTHON
 
 
