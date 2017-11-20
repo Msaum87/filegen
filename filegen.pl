@@ -1,3 +1,8 @@
+#Author Matthew Saum
+#Copyright 2017 SURFsara BV
+#Apache License 2.0
+
+
 #---------------------------------------------------
 #INSTRUCTIONS-
 #Create this perl script and a test file named after
