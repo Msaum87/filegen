@@ -1,3 +1,8 @@
+#Author Matthew Saum
+#Copyright 2017 SURFsara BV
+#Apache License 2.0
+
+
 #Python version of FileGen, created so that I can learn some python
 import os
 import random
