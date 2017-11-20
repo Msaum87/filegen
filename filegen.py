@@ -125,9 +125,7 @@ while ( i < int(copies)):
   d=do
  elif ( (x >  int(elsd)) & (d != do)):
   y=str.split(d, '/')
-  print y
   del y[len(y)-1]
-  print y
   d='/'.join(y)
   os.system('echo \"'+time.ctime()+'::One-Level-Up Return::'+d+'.\" >> '+do+'/FileGen.log')
   
